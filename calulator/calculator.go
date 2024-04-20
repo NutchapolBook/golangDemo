@@ -10,8 +10,8 @@ import (
 
 var reader = bufio.NewReader(os.Stdin)
 
-func getInput(promt string) float64 {
-	fmt.Printf("%v", promt)
+func getInput(promt string, number int64) float64 {
+	fmt.Printf("%v %v: ", promt, number)
 	input, _ := reader.ReadString('\n')
 	value, err := strconv.ParseFloat(strings.TrimSpace(input), 64)
 	if err != nil {
@@ -39,14 +39,14 @@ func divide(value1, value2 float64) float64 {
 }
 
 func getOperator() string {
-	fmt.Printf("operator is ( + - * /)")
+	fmt.Printf("Operator :")
 	op, _ := reader.ReadString('\n')
 	return strings.TrimSpace(op)
 }
 
 func main() {
 	result := float64(0)
-	fmt.Println("Input number of inputs:")
+	fmt.Printf("Input number of inputs: ")
 	input, _ := reader.ReadString('\n')
 	inputCount, err := strconv.ParseInt(strings.TrimSpace(input), 10, 64)
 	if err != nil {
@@ -54,22 +54,29 @@ func main() {
 		panic(message)
 	}
 
-	for i := 0; i < inputCount; i++ {
-		value := getInput("value = ")
-
-		switch operator := getOperator(); operator {
-		case "+":
-			result = add(result, value)
-		case "-":
-			result = subtract(result, value)
-		case "*":
-			result = multiply(result, value)
-		case "/":
-			result = divide(result, value)
-		default:
-			panic("wrong operator")
+	var i int64 = 1
+	for i <= inputCount {
+		if i == 1 {
+			value := getInput("Enter Number", i)
+			result = value
+		} else {
+			value := getInput("Enter Number", i)
+			switch operator := getOperator(); operator {
+			case "+":
+				result = add(result, value)
+			case "-":
+				result = subtract(result, value)
+			case "*":
+				result = multiply(result, value)
+			case "/":
+				result = divide(result, value)
+			default:
+				panic("Wrong operator")
+			}
+			// fmt.Println("Result is", result)
 		}
+		i++
 	}
 
-	fmt.Printf("result is %v", result)
+	fmt.Printf("Result is %v", result)
 }
